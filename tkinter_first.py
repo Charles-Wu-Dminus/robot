@@ -1,5 +1,6 @@
 import tkinter as tk
 import jieba
+from tkinter import filedialog
 
 # 創建一個頂層窗口
 root = tk.Tk()
@@ -10,16 +11,18 @@ root.title("Input Text")
 # 創建一個提交按鈕
 button = tk.Button(root, text="Submit")
 
-# 創建一個文本框
-textbox = tk.Entry(root)
-
 # 定義按鈕的事件處理器
 def submit(event):
-    # 取得文本框中的文本
-    text = textbox.get()
-    print("輸入的文件為：" + text)
+    # 顯示文件選擇對話框
+    filepath = filedialog.askopenfilename()
+    print("選擇的文件為：" + filepath)
 
-    # 將文件分詞
+    # 讀取文件中的文本
+    with open(filepath, "r") as f:
+        text = f.read()
+        print("文件中的文本為：" + text)
+
+    # 將文本分詞
     words = list(jieba.cut(text))
     print("分詞後的結果為：", words)
 
@@ -28,9 +31,6 @@ button.bind("<Button-1>", submit)
 
 # 將按鈕顯示在窗口中
 button.pack()
-
-# 將文本框顯示在窗口中
-textbox.pack()
 
 # 顯示窗口
 root.mainloop()
